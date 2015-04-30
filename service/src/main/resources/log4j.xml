@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+
+    <appender name="FileAppenderSpring" class="org.apache.log4j.FileAppender">
+        <param name="File" value="/tmp/logs/spring-application.log"/>
+        <param name="Append" value="true"/>
+        <param name="threshold" value="trace"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="FileAppenderHibernate" class="org.apache.log4j.FileAppender">
+        <param name="File" value="/tmp/logs/hibernate-application.log"/>
+        <param name="Append" value="true"/>
+        <param name="threshold" value="trace"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+        <param name="threshold" value="info"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+        </layout>
+    </appender>
+
+    <category name="org.apache.log4j.xml">
+        <priority value="debug"/>
+        <appender-ref ref="FileAppenderSpring"/>
+    </category>
+
+    <logger name="org.springframework">
+        <level value="info"/>
+        <appender-ref ref="FileAppenderSpring"/>
+    </logger>
+
+    <!-- Log all SQL DML statements as they are executed -->
+    <logger name="org.hibernate.SQL">
+        <level value="trace"></level>
+    </logger>
+    <!-- Log all JDBC parameters -->
+    <logger name="org.hibernate.type">
+        <level value="debug"></level>
+    </logger>
+    <!-- Log all SQL DDL statements as they are executed -->
+    <logger name="org.hibernate.tool.hbm2ddl">
+        <level value="debug"></level>
+    </logger>
+    <!-- Log the state of all entities (max 20 entities) associated with the session at flush time -->
+    <logger name="org.hibernate.pretty">
+        <level value="debug"></level>
+    </logger>
+    <!-- Log all second-level cache activity -->
+    <logger name="org.hibernate.cache">
+        <level value="debug"></level>
+    </logger>
+    <!-- Log transaction related activity -->
+    <logger name="org.hibernate.transaction">
+        <level value="debug"></level>
+    </logger>
+    <!-- Log all JDBC resource acquisition -->
+    <logger name="org.hibernate.jdbc">
+        <level value="debug"></level>
+    </logger>
+    <!-- Log HQL and SQL ASTs during query parsing -->
+    <logger name="org.hibernate.hql.ast.AST">
+        <level value="debug"></level>
+    </logger>
+    <!-- Log all JAAS authorization requests -->
+    <logger name="org.hibernate.secure">
+        <level value="debug"></level>
+    </logger>
+
+
+    <!-- Log everything (a lot of information, but very useful for troubleshooting) -->
+    <logger name="org.hibernate">
+        <level value="info"/>
+        <appender-ref ref="FileAppenderHibernate"/>
+    </logger>
+
+    <root>
+        <priority value="info"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</log4j:configuration>
